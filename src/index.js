@@ -37,7 +37,7 @@ switch (process.platform) {
 if (fs.existsSync(pluginPaths[0]) && fs.existsSync(pluginPaths[1])) {
   console.log('Plugin exists.');
 
-  Promise.as()
+  Promise.resolve()
     .then(() => {
       if (process.platform === 'darwin') {
         return fsp.readFile(`/Applications/Google Chrome.app/Contents/Versions/${CHROME_VERSION}/Google Chrome Framework.framework/Libraries/WidevineCdm/manifest.json`)
