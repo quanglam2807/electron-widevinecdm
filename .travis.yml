@@ -1,0 +1,22 @@
+language: node_js
+matrix:
+  fast_finish: true
+  include:
+  - os: osx
+    node_js: 6
+    before_install:
+      - brew cask install google-chrome
+  - os: linux
+    node_js: 6
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+cache:
+  yarn: true
+  directories:
+  - node_modules
+script:
+- yarn start

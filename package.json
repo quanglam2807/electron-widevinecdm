@@ -1,0 +1,22 @@
+{
+  "name": "electron-widevinecdm",
+  "version": "1.4.8.970",
+  "description": "WidevineCDM for Electron",
+  "main": "src/index.js",
+  "repository": "https://github.com/webcatalog/electron-pepperflash",
+  "author": "Quang Lam",
+  "license": "MIT",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "devDependencies": {
+    "eslint": "^3.17.1",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.0"
+  },
+  "dependencies": {
+    "fs-promise": "^2.0.0"
+  }
+}
