@@ -26,11 +26,15 @@ install:
 build_script:
   - yarn zip
 
+artifacts:
+  - path: dist\*.zip
+    name: WidevineCDM for Windows 64-bit
+
 deploy:
   provider: GitHub
   auth_token:
     secure: <your encrypted token> # your encrypted token from GitHub
-  artifact: /dist/.*\.zip/            # upload all NuGet packages to release assets
+  artifact: /.*\.zip/            # upload all NuGet packages to release assets
   draft: false
   prerelease: false
   on:
