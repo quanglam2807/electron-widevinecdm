@@ -4,11 +4,11 @@ matrix:
   fast_finish: true
   include:
   - os: osx
-    node_js: 7
+    node_js: 6
     before_install:
       - brew cask install google-chrome
   - os: linux
-    node_js: 7
+    node_js: 6
 addons:
   apt:
     sources:
