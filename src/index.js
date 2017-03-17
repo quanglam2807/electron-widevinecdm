@@ -20,8 +20,8 @@ const getPluginPaths = () => {
     }
     case 'win32': {
       return [
-        `${process.env.LOCALAPPDATA}/Google/Chrome/WidevineCDM/${WIDEVINECDM_VERSION}/_platform_specific/win_x64/widevinecdm.dll`,
-        `${process.env.LOCALAPPDATA}/Google/Chrome/WidevineCDM/${WIDEVINECDM_VERSION}/_platform_specific/win_x64/widevinecdmadapter.dll`,
+        `C:/Program Files (x86)/Google/Chrome/Application/${CHROME_VERSION}/WidevineCdm/_platform_specific/win_x64/widevinecdm.dll`,
+        `C:/Program Files (x86)/Google/Chrome/Application/${CHROME_VERSION}/WidevineCdm/_platform_specific/win_x64/widevinecdmadapter.dll`,
       ];
     }
     default: { // darwin
@@ -33,14 +33,27 @@ const getPluginPaths = () => {
   }
 };
 
+const getManifestPath = () => {
+  switch (process.platform) {
+    case 'darwin':
+      return `/Applications/Google Chrome.app/Contents/Versions/${CHROME_VERSION}/Google Chrome Framework.framework/Libraries/WidevineCdm/manifest.json`;
+    case 'win32':
+      return `C:/Program Files (x86)/Google/Chrome/Application/${CHROME_VERSION}/WidevineCdm/manifest.json`;
+    default:
+      return null;
+  }
+};
+
 const pluginPaths = getPluginPaths();
+console.log(pluginPaths);
 if (fs.existsSync(pluginPaths[0]) && fs.existsSync(pluginPaths[1])) {
   console.log('Plugin exists.');
 
   Promise.resolve()
     .then(() => {
       if (process.platform === 'darwin') {
-        return fsp.readFile(`/Applications/Google Chrome.app/Contents/Versions/${CHROME_VERSION}/Google Chrome Framework.framework/Libraries/WidevineCdm/manifest.json`)
+        const manifestPath = getManifestPath();
+        return fsp.readFile(manifestPath)
           .then((manifestJSON) => {
             const info = JSON.parse(manifestJSON);
             if (info.version !== WIDEVINECDM_VERSION) {
