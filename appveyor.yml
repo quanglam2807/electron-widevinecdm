@@ -21,7 +21,7 @@ install:
   - ps: Install-Product node $env:nodejs_version x64
   - node -v
   # Install latest chrome
-  - choco install googlechrome
+  - choco install googlechrome --force
   # install modules
   - yarn
 
