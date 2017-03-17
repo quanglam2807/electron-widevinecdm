@@ -1,5 +1,11 @@
 /* eslint-disable no-console */
 
+// Skip on CI
+if (
+  process.env.TRAVIS_REPO_SLUG !== 'webcatalog/electron-widevinecdm'
+|| process.env.APPVEYOR_REPO_NAME !== 'webcatalog/electron-widevinecdm'
+) process.exit();
+
 const path = require('path');
 const os = require('os');
 const https = require('follow-redirects').https;
