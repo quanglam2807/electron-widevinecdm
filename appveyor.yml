@@ -16,6 +16,7 @@ cache:
  - "%LOCALAPPDATA%\\Yarn"
 
 build_script:
+  - node -v
   - yarn start
 
 test: off

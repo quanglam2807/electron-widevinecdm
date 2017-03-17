@@ -3,37 +3,37 @@
 const fs = require('fs');
 const fsp = require('fs-promise');
 
+// https://electron.atom.io/docs/tutorial/using-widevine-cdm-plugin/
+
 const CHROME_VERSION = '57.0.2987.98';
 const WIDEVINECDM_VERSION = process.env.npm_package_version;
 
 console.log(`Platform: ${process.platform}`);
 
-let pluginPaths;
-switch (process.platform) {
-  case 'linux': {
-    pluginPaths = [
-      '/opt/google/chrome/libwidevinecdm.so',
-      '/opt/google/chrome/libwidevinecdmadapter.so',
-    ];
-    break;
+const getPluginPaths = () => {
+  switch (process.platform) {
+    case 'linux': {
+      return [
+        '/opt/google/chrome/libwidevinecdm.so',
+        '/opt/google/chrome/libwidevinecdmadapter.so',
+      ];
+    }
+    case 'win32': {
+      return [
+        `${process.env.LOCALAPPDATA}/Google/Chrome/WidevineCDM/${WIDEVINECDM_VERSION}/_platform_specific/win_x64/widevinecdm.dll`,
+        `${process.env.LOCALAPPDATA}/Google/Chrome/WidevineCDM/${WIDEVINECDM_VERSION}/_platform_specific/win_x64/widevinecdmadapter.dll`,
+      ];
+    }
+    default: { // darwin
+      return [
+        `/Applications/Google Chrome.app/Contents/Versions/${CHROME_VERSION}/Google Chrome Framework.framework/Libraries/WidevineCdm/_platform_specific/mac_x64/libwidevinecdm.dylib`,
+        `/Applications/Google Chrome.app/Contents/Versions/${CHROME_VERSION}/Google Chrome Framework.framework/Libraries/WidevineCdm/_platform_specific/mac_x64/widevinecdmadapter.plugin`,
+      ];
+    }
   }
-  case 'win32': {
-    pluginPaths = [
-      `${process.env.LOCALAPPDATA}/Google/Chrome/WidevineCDM/${WIDEVINECDM_VERSION}/_platform_specific/win_x64/widevinecdm.dll`,
-      `${process.env.LOCALAPPDATA}/Google/Chrome/WidevineCDM/${WIDEVINECDM_VERSION}/_platform_specific/win_x64/widevinecdmadapter.dll`,
-    ];
-    break;
-  }
-  default: { // darwin
-    pluginPaths = [
-      `/Applications/Google Chrome.app/Contents/Versions/${CHROME_VERSION}/Google Chrome Framework.framework/Libraries/WidevineCdm/_platform_specific/mac_x64/libwidevinecdm.dylib`,
-      `/A'pplications/Google Chrome.app/Contents/Versions/${CHROME_VERSION}/Google Chrome Framework.framework/Libraries/WidevineCdm/_platform_specific/mac_x64/widevinecdmadapter.plugin`,
-    ];
-  }
-}
+};
 
-// https://electron.atom.io/docs/tutorial/using-widevine-cdm-plugin/
-
+const pluginPaths = getPluginPaths();
 if (fs.existsSync(pluginPaths[0]) && fs.existsSync(pluginPaths[1])) {
   console.log('Plugin exists.');
 
