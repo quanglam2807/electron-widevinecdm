@@ -5,7 +5,7 @@ const fsp = require('fs-promise');
 
 // https://electron.atom.io/docs/tutorial/using-widevine-cdm-plugin/
 
-const CHROME_VERSION = '57.0.2987.98';
+const CHROME_VERSION = '57.0.2987.110';
 const WIDEVINECDM_VERSION = process.env.npm_package_version;
 
 console.log(`Platform: ${process.platform}`);
@@ -58,6 +58,6 @@ if (fs.existsSync(pluginPaths[0]) && fs.existsSync(pluginPaths[1])) {
       process.exit(1);
     });
 } else {
-  process.exit(1);
   console.log('Plugin does not exist.');
+  process.exit(1);
 }
