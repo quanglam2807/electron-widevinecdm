@@ -33,7 +33,7 @@ artifacts:
 deploy:
   provider: GitHub
   auth_token:
-    secure: GGdcIQfPYXd25exHrJ+D+Q6Mheqy8dTd+de+C6csA6M5nNygqVQwhjN/umM2xuWs # your encrypted token from GitHub
+    secure: kqPgSWyRvAz0d7U/OgGOrr1ARdnVSVTNNEiSyjjLgrNgZerU1xxHJ6+zKgW+8qFZ # your encrypted token from GitHub
   artifact: /.*\.zip/            # upload all NuGet packages to release assets
   draft: false
   prerelease: false
