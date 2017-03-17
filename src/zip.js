@@ -2,11 +2,14 @@
 
 const fs = require('fs');
 const fsp = require('fs-promise');
+const path = require('path');
+const archiver = require('archiver-promise');
+const version = require('../package').version;
 
 // https://electron.atom.io/docs/tutorial/using-widevine-cdm-plugin/
 
 const CHROME_VERSION = '57.0.2987.110';
-const WIDEVINECDM_VERSION = process.env.npm_package_version;
+const WIDEVINECDM_VERSION = version;
 
 console.log(`Platform: ${process.platform}`);
 
@@ -65,6 +68,22 @@ if (fs.existsSync(pluginPaths[0]) && fs.existsSync(pluginPaths[1])) {
           });
       }
       return null;
+    })
+    .then(() => {
+      const outputPath = path.resolve(__dirname, '..', 'dist');
+
+      if (!fs.existsSync(outputPath)) {
+        fs.mkdirSync(outputPath);
+      }
+
+      const archive = archiver(`${outputPath}/widevinecdm_${process.platform}_x64.zip`, { store: true });
+
+      // append a file
+      pluginPaths.forEach((filePath) => {
+        archive.file(filePath, { name: path.basename(filePath) });
+      });
+
+      return archive.finalize();
     })
     .catch((err) => {
       console.log(err);

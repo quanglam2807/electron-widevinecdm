@@ -6,18 +6,27 @@ matrix:
   - os: osx
     node_js: 6
     before_install:
-      - brew cask install google-chrome
+    - brew cask install google-chrome
   - os: linux
     node_js: 6
 addons:
   apt:
     sources:
-      - google-chrome
+    - google-chrome
     packages:
-      - google-chrome-stable
+    - google-chrome-stable
 cache:
   yarn: true
   directories:
   - node_modules
 script:
 - yarn start
+deploy:
+  provider: releases
+  api-key:
+    secure: PfcSgcdxPoiCtGW5SEOS9L8qx8b4Db8CJ+xI7qiPswdaNggGAQ7YDHnMA8O+fnzu+lZFcanmS3k4c1LxJbFEXEhgotq/0gDQ6cooEfFNaHh0OJQE1WPDAEekgvbzlAkmMd3F8MXOdNt5wBGh9r/6A8ZXGwoBCuAdrFnYT3tM82ny5DCbZ6AAwbLQFhIifa8WkU2PwcVwEuInlIOowki5ARnPUi1xAFTkHIYKpV2f1wXGnIq4pIqEqKUz3mMXgG8iT3INKZrkaikpq/qaITW06xO2717u0h0VDhNbeBt76lp2P2EgKJHmcvcPaD1SY+L9wP5Idjz00qeGd11uAj20WA1D5EHz6NiB2jM7Gqu8PuwpYyVm+7uSRLUHY/kXiWnneNADMBbs/zgoGM1F099DAuYNeKA4jEkEzxSUjijyl6EA/gVpw2kqmwyPPUlifwHkv7h6Pl1MjxBBJi04XmhxVMNMD4wDCYn42+nydD1EtW5BlHsHOL5LaFcjI+GtxGcMLwLmNELv7yndSURitEVlLE6D+Kn+AZb1tP2VRorIT3cNNH8ns7lwkd4mtULYEUX3jrA6xBSdUbgfbFlWYwzFR6/irt/Qv7tDlpCOC9PpVR6qHqWC/4DgOU/+bKcqrsyCeYVqxaRfsR6bcRKFhy/cfw7TTzqzGHmHOIIudu1GC8M=
+  file_glob: true
+  file: dist/*
+  skip_cleanup: true
+  on:
+    tags: true
