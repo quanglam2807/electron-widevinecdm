@@ -8,7 +8,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node src/index.js",
-    "zip": "node src/zip.js"
+    "zip": "node src/zip.js",
+    "postinstall": "node src/install.js"
   },
   "devDependencies": {
     "eslint": "^3.17.1",
@@ -18,8 +19,9 @@
     "eslint-plugin-react": "^6.10.0"
   },
   "dependencies": {
-    "archiver-pack": "^1.0.2",
     "archiver-promise": "^1.0.0",
+    "extract-zip": "^1.6.0",
+    "follow-redirects": "^1.2.3",
     "fs-promise": "^2.0.0"
   }
 }
