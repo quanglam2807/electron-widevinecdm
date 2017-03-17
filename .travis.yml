@@ -20,7 +20,7 @@ cache:
   directories:
   - node_modules
 script:
-- yarn start
+- yarn zip
 deploy:
   provider: releases
   api-key:
