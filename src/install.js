@@ -1,10 +1,9 @@
 /* eslint-disable no-console */
 
 // Skip on CI
-if (
-  process.env.TRAVIS_REPO_SLUG !== 'webcatalog/electron-widevinecdm'
-|| process.env.APPVEYOR_REPO_NAME !== 'webcatalog/electron-widevinecdm'
-) process.exit();
+const repoSlug = process.env.TRAVIS_REPO_SLUG || process.env.APPVEYOR_REPO_NAME || 'Not detected';
+console.log(`Repo name: ${repoSlug}`);
+if (repoSlug === 'webcatalog/electron-widevinecdm') process.exit();
 
 const path = require('path');
 const os = require('os');
@@ -42,6 +41,8 @@ const extractZip = (source, target) =>
       resolve();
     });
   });
+
+console.log('Download plugins from GitHub Release...');
 
 fsp.mkdir(tmpdir)
   .then(() => {
