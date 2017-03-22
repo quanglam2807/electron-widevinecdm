@@ -1,6 +1,5 @@
 const path = require('path');
-
-const WIDEVINECDM_VERSION = require('../package').version;
+const { WIDEVINECDM_VERSION } = require('./constants');
 
 const load = (app) => {
   let widevineCdmPluginFilename;

@@ -4,12 +4,10 @@ const fs = require('fs');
 const fsp = require('fs-promise');
 const path = require('path');
 const archiver = require('archiver-promise');
-const version = require('../package').version;
+const { CHROME_VERSION, WIDEVINECDM_VERSION } = require('./constants');
+
 
 // https://electron.atom.io/docs/tutorial/using-widevine-cdm-plugin/
-
-const CHROME_VERSION = '57.0.2987.110';
-const WIDEVINECDM_VERSION = version;
 
 console.log(`Platform: ${process.platform}`);
 
