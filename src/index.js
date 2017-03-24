@@ -19,7 +19,7 @@ const load = (app) => {
   const asarUnpackedPath = path.join(process.resourcesPath, 'app.asar.unpacked', 'node_modules', 'electron-widevinecdm', 'dist', widevineCdmPluginFilename);
   const normalPath = path.join(__dirname, '..', 'dist', widevineCdmPluginFilename);
 
-  if (fs.existSync(asarUnpackedPath)) {
+  if (fs.existsSync(asarUnpackedPath)) {
     app.commandLine.appendSwitch('widevine-cdm-path', asarUnpackedPath);
   } else {
     app.commandLine.appendSwitch('widevine-cdm-path', normalPath);
