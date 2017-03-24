@@ -1,6 +1,6 @@
 {
   "name": "electron-widevinecdm",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "WidevineCDM for Electron",
   "main": "src/index.js",
   "repository": "https://github.com/webcatalog/electron-widevinecdm",
