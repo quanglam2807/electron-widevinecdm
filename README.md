@@ -7,6 +7,8 @@
 
 WidevineCDM for Electron - Allows you to run Netflix and other streaming websites in your Electron apps.
 
+Only support 64-bit platforms.
+
 ## Installation
 1. Install from npm registry
   ```bash
