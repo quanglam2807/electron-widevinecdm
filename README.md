@@ -21,8 +21,8 @@ Only support 64-bit platforms.
 2. Load the plugin:
   ```js
   const { app } = require('electron');
-  const widewinecdm = require('electron-widevinecdm');
-  widewine.load(app);
+  const widevine = require('electron-widevinecdm');
+  widevine.load(app);
   ```
 
 ## Testing
