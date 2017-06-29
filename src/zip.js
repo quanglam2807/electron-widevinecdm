@@ -25,11 +25,28 @@ const getChromePath = () => {
   }
 };
 
-const getChromeVersionAsync = () =>
-  new Promise((resolve, reject) => {
-    execFile(getChromePath(), ['--version'], (error, stdout) => {
+const getChromeVersionAsync = () => {
+  if (process.platform === 'win32') {
+    return fs.readdir('C:/Program Files (x86)/Google/Chrome/Application')
+      .then((folders) => {
+        /* version format: 59.0.3071.109 */
+        const versions = folders.filter(folderName => /^\d{2}(.)\d{1}(.)\d{4}(.)\d{3}$/.test(folderName));
+        // sort versions from old to new
+        versions.sort();
+        // return latest
+        return versions[versions.length - 1];
+      });
+  }
+
+
+  return new Promise((resolve, reject) => {
+    execFile(getChromePath(), ['--version'], (error, stdout, stderr) => {
       if (error) {
         return reject(error);
+      }
+
+      if (stderr) {
+        return reject(new Error(stderr));
       }
 
       const parts = stdout.trim().split(' ');
@@ -38,6 +55,7 @@ const getChromeVersionAsync = () =>
       return resolve(version);
     });
   });
+};
 
 const getPluginPaths = (chromeVersion) => {
   console.log(chromeVersion);
@@ -68,7 +86,7 @@ const getManifestPath = (chromeVersion) => {
     case 'darwin':
       return `/Applications/Google Chrome.app/Contents/Versions/${chromeVersion}/Google Chrome Framework.framework/Libraries/WidevineCdm/manifest.json`;
     case 'win32':
-      return `C:/Program Files (x86)/Google/Chrome/Application/${chromeVersion}/WidevineCdm/manifest.json`;
+      return `C:/Program Files/Google/Chrome/Application/${chromeVersion}/WidevineCdm/manifest.json`;
     default:
       return null;
   }

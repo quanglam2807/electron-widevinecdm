@@ -7,7 +7,7 @@ const Application = require('spectron').Application;
 const assert = require('assert');
 
 describe('application launch', function launch() {
-  this.timeout(10000);
+  this.timeout(100000);
 
   beforeEach(function beforeEach() {
     const appPath = path.resolve(__dirname, '..', 'main.js');
@@ -15,6 +15,8 @@ describe('application launch', function launch() {
     this.app = new Application({
       path: electronPath,
       args: [appPath],
+      startTimeout: 50000,
+      waitTimeout: 50000,
     });
     return this.app.start();
   });
@@ -27,6 +29,7 @@ describe('application launch', function launch() {
   });
 
   it('shows an initial window', function showInitialWindow() {
+    // longer timeout to ensure files are downloaded
     return this.app.client.getWindowCount().then((count) => {
       assert.equal(count, 1);
     });
