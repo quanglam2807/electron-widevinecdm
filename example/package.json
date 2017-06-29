@@ -1,0 +1,14 @@
+{
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "mocha test"
+  },
+  "devDependencies": {
+    "mocha": "^3.4.2",
+    "spectron": "^3.6.4"
+  },
+  "dependencies": {
+    "electron": "^1.6.11"
+  }
+}

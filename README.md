@@ -22,8 +22,18 @@ Only support 64-bit platforms.
   ```js
   const { app } = require('electron');
   const widevine = require('electron-widevinecdm');
-  widevine.load(app);
-  ```
 
-## Testing
-The plugin is tested on macOS, Windows and Linux. This repo does not have testing scripts but it is tested automatically with [WebCatalog](https://github.com/webcatalog/webcatalog) so as long as WebCatalog works, it works.
+  widevine.loadAsync(app)
+    .then(() => {
+      // Create the browser window.
+      mainWindow = new BrowserWindow({
+        webPreferences: {
+          // The `plugins` have to be enabled.
+          plugins: true,
+        },
+      });
+
+      // and load the index.html of the app.
+      mainWindow.loadURL('https://bitmovin.com/mpeg-dash-hls-drm-test-player/');
+    });
+  ```
