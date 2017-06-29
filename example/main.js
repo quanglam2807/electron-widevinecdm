@@ -4,6 +4,8 @@ const electron = require('electron');
 const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
+// Module to create dialog
+const dialog = electron.dialog;
 // Module to load WidevineCDM
 const widevine = require('../src');
 
@@ -12,7 +14,32 @@ const widevine = require('../src');
 let mainWindow;
 
 // widevineCDM needs to start running before the ready event
-const p = widevine.loadAsync(app);
+widevine.loadAsync(app)
+  .then(() => {
+    // if widevineCDM is loaded after the app is ready, the user needs to relaunch the app;
+    if (app.isReady()) {
+      app.relaunch();
+
+      dialog.showMessageBox({
+        message: 'You need to relaunch the app to use widevineCDM',
+        buttons: [
+          'Relaunch now',
+          'Cancel',
+        ],
+        defaultId: 0,
+        cancelId: 1,
+      }, (response) => {
+        if (response === 0) {
+          app.quit();
+        }
+      });
+    }
+  })
+  .catch(() => {
+    // run the app even if widevinecdm fails to load
+    // eslint-disable-next-line
+    console.log('WidevineCDM fails to load');
+  });
 
 const createWindow = () => {
   // Create the browser window.
@@ -40,17 +67,7 @@ const createWindow = () => {
   });
 };
 
-const handleReady = () => {
-  p.then(() => {
-    createWindow();
-  })
-  .catch(() => {
-    // run the app even if widevinecdm fails to load
-    createWindow();
-  });
-};
-
-app.on('ready', handleReady);
+app.on('ready', createWindow);
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {

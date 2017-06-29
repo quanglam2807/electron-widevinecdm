@@ -20,20 +20,34 @@ Only support 64-bit platforms.
   ```
 2. Load the plugin:
   ```js
-  const { app } = require('electron');
+  const { app, dialog } = require('electron');
   const widevine = require('electron-widevinecdm');
 
+  // widevineCDM needs to start running before the ready event
   widevine.loadAsync(app)
     .then(() => {
-      // Create the browser window.
-      mainWindow = new BrowserWindow({
-        webPreferences: {
-          // The `plugins` have to be enabled.
-          plugins: true,
-        },
-      });
+      // if widevineCDM is loaded after the app is ready, the user needs to relaunch the app;
+      if (app.isReady()) {
+        app.relaunch();
 
-      // and load the index.html of the app.
-      mainWindow.loadURL('https://bitmovin.com/mpeg-dash-hls-drm-test-player/');
+        dialog.showMessageBox({
+          message: 'You need to relaunch the app to use widevineCDM',
+          buttons: [
+            'Relaunch now',
+            'Cancel',
+          ],
+          defaultId: 0,
+          cancelId: 1,
+        }, (response) => {
+          if (response === 0) {
+            app.quit();
+          }
+        });
+      }
+    })
+    .catch(() => {
+      // run the app even if widevinecdm fails to load
+      // eslint-disable-next-line
+      console.log('WidevineCDM fails to load');
     });
   ```
