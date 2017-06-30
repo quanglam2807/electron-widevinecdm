@@ -18,6 +18,24 @@ widevine.loadAsync(app)
   .then(() => {
     // if widevineCDM is loaded after the app is ready, the user needs to relaunch the app;
     if (app.isReady()) {
+      if (process.env.SPECTRON) {
+        // open a new window in Spectron to notify widevine is loaded
+        const testWindow = new BrowserWindow({
+          width: 800,
+          height: 600,
+          webPreferences: {
+            // The `plugins` have to be enabled.
+            plugins: true,
+          },
+
+        });
+
+        // and load the index.html of the app.
+        testWindow.loadURL('https://www.youtube.com/watch?v=ddrA_PvMy-0');
+
+        return;
+      }
+
       app.relaunch();
 
       dialog.showMessageBox({
@@ -50,6 +68,7 @@ const createWindow = () => {
       // The `plugins` have to be enabled.
       plugins: true,
     },
+
   });
 
   // and load the index.html of the app.

@@ -15,6 +15,7 @@ describe('application launch', function launch() {
     this.app = new Application({
       path: electronPath,
       args: [appPath],
+      env: { SPECTRON: true },
       startTimeout: 50000,
       waitTimeout: 50000,
     });
@@ -29,10 +30,10 @@ describe('application launch', function launch() {
   });
 
   it('shows an initial window', function showInitialWindow() {
-    // longer timeout to ensure files are downloaded
-    return this.app.client.getWindowCount().then((count) => {
-      assert.equal(count, 1);
-    });
+    // use youtube window to know that widevinecdm is downloaded
+    // https://www.youtube.com/watch?v=ddrA_PvMy-0
+    return this.app.client.windowByIndex(1)
+    .waitUntilWindowLoaded();
   });
 
   it('WidevineCDM is loaded', function showInitialWindow() {

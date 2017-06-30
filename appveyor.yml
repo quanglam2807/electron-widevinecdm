@@ -26,8 +26,8 @@ install:
   - yarn
 
 build_script:
-  - yarn test
   - yarn zip
+  - yarn test
 
 artifacts:
   - path: dist\*.zip

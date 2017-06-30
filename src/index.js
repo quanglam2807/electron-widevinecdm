@@ -7,19 +7,30 @@ const version = require('../package').version;
 
 const { WIDEVINECDM_VERSION } = require('./constants');
 
-const downloadFile = (url, dest) =>
-  new Promise((resolve, reject) => {
-    const file = fs.createWriteStream(dest);
-    https.get(url, (response) => {
-      response.pipe(file);
-      file.on('finish', () => {
-        file.close(() => resolve());  // close() is async, call cb after close completes.
+const downloadFile = (fileName, dest) => {
+  const localPath = path.resolve(__dirname, '..', 'dist', fileName);
+  return fs.pathExists(localPath)
+    .then((exists) => {
+      // try to use local file if possible
+      // mostly for testing
+      if (exists) {
+        return fs.move(localPath, dest);
+      }
+
+      return new Promise((resolve, reject) => {
+        const file = fs.createWriteStream(dest);
+        https.get(`https://github.com/webcatalog/electron-widevinecdm/releases/download/v${version}/${fileName}`, (response) => {
+          response.pipe(file);
+          file.on('finish', () => {
+            file.close(() => resolve());  // close() is async, call cb after close completes.
+          });
+        }).on('error', (err) => { // Handle errors
+          fs.unlink(dest); // Delete the file async. (But we don't check the result)
+          reject(err);
+        });
       });
-    }).on('error', (err) => { // Handle errors
-      fs.unlink(dest); // Delete the file async. (But we don't check the result)
-      reject(err);
     });
-  });
+};
 
 const extractZip = (source, target) =>
   new Promise((resolve, reject) => {
@@ -61,8 +72,8 @@ const loadAsync = (app) => {
         return null;
       }
 
-      const url = `https://github.com/webcatalog/electron-widevinecdm/releases/download/v${version}/widevinecdm_${process.platform}_${process.arch}.zip`;
-      return downloadFile(url, localZipPath)
+      const fileName = `widevinecdm_${process.platform}_${process.arch}.zip`;
+      return downloadFile(fileName, localZipPath)
         .then(() => extractZip(localZipPath, destPath));
     });
 };
