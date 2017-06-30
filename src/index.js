@@ -14,7 +14,7 @@ const downloadFile = (fileName, dest) => {
       // try to use local file if possible
       // mostly for testing
       if (exists) {
-        return fs.move(localPath, dest);
+        return fs.copy(localPath, dest);
       }
 
       return new Promise((resolve, reject) => {
