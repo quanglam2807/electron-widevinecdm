@@ -23,11 +23,20 @@ Only support 64-bit platforms.
   const { app, dialog } = require('electron');
   const widevine = require('electron-widevinecdm');
 
+  // location to store widevine files
+  const widevinePath = path.join(app.getPath('appData'), 'widevine');
+
   // widevineCDM needs to start running before the ready event
-  widevine.loadAsync(app)
-    .then(() => {
-      // if widevineCDM is loaded after the app is ready, the user needs to relaunch the app;
-      if (app.isReady()) {
+  // try to load widevine from widevinePath
+  // it will return a boolean to tell you if the files exist or not.
+  const widevineExisted = widevine.load(app, widevinePath);
+
+  app.on('ready', () => {
+    // when the app is ready
+    // try to download widevine files if they don't exist.
+    widevineCDM.downloadAsync(widevinePath)
+      .then(() => {
+        // the user needs to relaunch the app
         app.relaunch();
 
         dialog.showMessageBox({
@@ -43,11 +52,9 @@ Only support 64-bit platforms.
             app.quit();
           }
         });
-      }
-    })
-    .catch(() => {
-      // run the app even if widevinecdm fails to load
-      // eslint-disable-next-line
-      console.log('WidevineCDM fails to load');
-    });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  })
   ```
