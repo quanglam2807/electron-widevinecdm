@@ -32,8 +32,7 @@ describe('application launch', function launch() {
     this.app.start()
       .then(() =>
         this.app.client.windowByIndex(1)
-          .waitUntilWindowLoaded(),
-      );
+          .waitUntilWindowLoaded());
   });
 
   it('WidevineCDM is loaded', function showInitialWindow() {
@@ -52,7 +51,6 @@ describe('application launch', function launch() {
           .getText('#drmUsageDrm')
           .then((text) => {
             assert.equal(text, 'widevine');
-          }),
-      );
+          }));
   });
 });
