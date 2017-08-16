@@ -1,5 +1,6 @@
 // eslint-disable-next-line
 const electron = require('electron');
+const path = require('path');
 // Module to control application life.
 const app = electron.app;
 // Module to create native browser window.
@@ -9,30 +10,38 @@ const dialog = electron.dialog;
 // Module to load WidevineCDM
 const widevine = require('../src');
 
+const widevinePath = path.join(app.getPath('appData'), 'widevine');
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
+// try to load
 // widevineCDM needs to start running before the ready event
-widevine.loadAsync(app)
-  .then(() => {
-    // if widevineCDM is loaded after the app is ready, the user needs to relaunch the app;
-    if (app.isReady()) {
-      if (process.env.SPECTRON) {
-        // open a new window in Spectron to notify widevine is loaded
-        const testWindow = new BrowserWindow({
-          width: 800,
-          height: 600,
-          webPreferences: {
-            // The `plugins` have to be enabled.
-            plugins: true,
-          },
+// function will return a boolean to let you know if the plugin files exist.
+const widevineExisted = widevine.load(app, widevinePath);
 
-        });
+const triggerTestWidevine = () => {
+  // open a new window in Spectron to notify widevine is loaded
+  // so lazy to make Spectron click the `Relaunch now` button properly
+  const testWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {
+      // The `plugins` have to be enabled.
+      plugins: true,
+    },
 
-        // and load the index.html of the app.
-        testWindow.loadURL('https://www.youtube.com/watch?v=ddrA_PvMy-0');
+  });
+  testWindow.loadURL('https://www.youtube.com/watch?v=ddrA_PvMy-0');
+};
 
+const downloadWidevine = () => {
+  // if widevineCDM is loaded after the app is ready, the user needs to relaunch the app;
+  widevine.downloadAsync(app, widevinePath)
+    .then(() => {
+      if (process.env.FIRST_RUN) {
+        triggerTestWidevine();
         return;
       }
 
@@ -51,13 +60,11 @@ widevine.loadAsync(app)
           app.quit();
         }
       });
-    }
-  })
-  .catch(() => {
-    // run the app even if widevinecdm fails to load
-    // eslint-disable-next-line
-    console.log('WidevineCDM fails to load');
-  });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 
 const createWindow = () => {
   // Create the browser window.
@@ -84,6 +91,14 @@ const createWindow = () => {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+
+  if (process.env.FIRST_RUN) {
+    if (!widevineExisted) {
+      downloadWidevine();
+    } else {
+      triggerTestWidevine();
+    }
+  }
 };
 
 app.on('ready', createWindow);

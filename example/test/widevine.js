@@ -1,4 +1,4 @@
-/* global describe it beforeEach afterEach */
+/* global describe it  afterEach */
 
 /* eslint-disable import/no-extraneous-dependencies */
 const electronPath = require('electron');
@@ -9,18 +9,7 @@ const assert = require('assert');
 describe('application launch', function launch() {
   this.timeout(100000);
 
-  beforeEach(function beforeEach() {
-    const appPath = path.resolve(__dirname, '..', 'main.js');
-
-    this.app = new Application({
-      path: electronPath,
-      args: [appPath],
-      env: { SPECTRON: true },
-      startTimeout: 50000,
-      waitTimeout: 50000,
-    });
-    return this.app.start();
-  });
+  const appPath = path.resolve(__dirname, '..', 'main.js');
 
   afterEach(function afterEach() {
     if (this.app && this.app.isRunning()) {
@@ -29,20 +18,41 @@ describe('application launch', function launch() {
     return null;
   });
 
-  it('shows an initial window', function showInitialWindow() {
+  it('waits to donwload WidevineCDM', function showInitialWindow() {
+    this.app = new Application({
+      path: electronPath,
+      args: [appPath],
+      env: { FIRST_RUN: true },
+      startTimeout: 50000,
+      waitTimeout: 50000,
+    });
+
     // use youtube window to know that widevinecdm is downloaded
     // https://www.youtube.com/watch?v=ddrA_PvMy-0
-    return this.app.client.windowByIndex(1)
-    .waitUntilWindowLoaded();
+    this.app.start()
+      .then(() =>
+        this.app.client.windowByIndex(1)
+          .waitUntilWindowLoaded(),
+      );
   });
 
   it('WidevineCDM is loaded', function showInitialWindow() {
-    return this.app.client
-      .windowByIndex(0)
-      .waitUntilWindowLoaded()
-      .getText('#drmUsageDrm')
-      .then((text) => {
-        assert.equal(text, 'widevine');
-      });
+    this.app = new Application({
+      path: electronPath,
+      args: [appPath],
+      startTimeout: 50000,
+      waitTimeout: 50000,
+    });
+
+    this.app.start()
+      .then(() =>
+        this.app.client
+          .windowByIndex(0)
+          .waitUntilWindowLoaded()
+          .getText('#drmUsageDrm')
+          .then((text) => {
+            assert.equal(text, 'widevine');
+          }),
+      );
   });
 });
