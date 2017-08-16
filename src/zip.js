@@ -118,18 +118,23 @@ getChromeVersionAsync()
         .then(() => {
           const outputPath = path.resolve(__dirname, '..', 'dist');
 
-          if (!fs.existsSync(outputPath)) {
-            fs.mkdirSync(outputPath);
-          }
+          const latestJson = path.join(outputPath, 'latest.json');
+          return fs.ensureFile(latestJson)
+            .then(() => fs.writeJson(latestJson, { version: WIDEVINECDM_VERSION }))
+            .then(() => {
+              if (!fs.existsSync(outputPath)) {
+                fs.mkdirSync(outputPath);
+              }
 
-          const archive = archiver(`${outputPath}/widevinecdm_${process.platform}_x64.zip`, { store: true });
+              const archive = archiver(`${outputPath}/widevinecdm_${process.platform}_x64.zip`, { store: true });
 
-          // append a file
-          pluginPaths.forEach((filePath) => {
-            archive.file(filePath, { name: path.basename(filePath) });
-          });
+              // append a file
+              pluginPaths.forEach((filePath) => {
+                archive.file(filePath, { name: path.basename(filePath) });
+              });
 
-          return archive.finalize();
+              return archive.finalize();
+            });
         })
         .catch((err) => {
           console.log(err);
