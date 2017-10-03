@@ -3,7 +3,7 @@ const fs = require('fs-extra');
 const https = require('follow-redirects').https;
 const path = require('path');
 const rp = require('request-promise');
-const semver = require('semver');
+const compareVersions = require('compare-versions');
 
 const { WIDEVINECDM_VERSION } = require('./constants');
 
@@ -73,7 +73,7 @@ const downloadAsync = (app, dest, platform = process.platform, arch = process.ar
         }
       }
 
-      if (!promises.length < 2) return Promise.reject(new Error('Cannot find valid download URLs'));
+      if (promises.length < 2) return Promise.reject(new Error('Cannot find valid download URLs'));
 
       return Promise.all(promises);
     })
@@ -114,9 +114,9 @@ const checkForUpdateAsync = dest =>
           const localVersion = localJson.version;
           const latestVersion = latestJson.version;
 
-          return semver.gt(latestVersion, localVersion);
+          return compareVersions(latestVersion, localVersion) > 0;
         })
-        .catch(() => false);
+        .catch(() => true);
     });
 
 const isDownloaded = (dest) => {
