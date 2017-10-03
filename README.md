@@ -30,32 +30,38 @@ Only support 64-bit platforms.
   // widevineCDM needs to start running before the ready event
   // try to load widevine from widevinePath
   // it will return a boolean to tell you if the files exist or not.
-  const widevineExisted = widevine.load(app, widevinePath);
+  const widevineExists = widevine.isDownloaded(widevinePath);
+  if (widevineExists) {
+    widevine.load(app, widevinePath);
+  }
+
 
   app.on('ready', () => {
     // when the app is ready
     // try to download widevine files if they don't exist.
-    widevineCDM.downloadAsync(widevinePath)
-      .then(() => {
-        // the user needs to relaunch the app
-        app.relaunch();
+    if (!widevineExists) {
+      widevine.downloadAsync(widevinePath)
+        .then(() => {
+          // the user needs to relaunch the app
+          app.relaunch();
 
-        dialog.showMessageBox({
-          message: 'You need to relaunch the app to use widevineCDM',
-          buttons: [
-            'Relaunch now',
-            'Cancel',
-          ],
-          defaultId: 0,
-          cancelId: 1,
-        }, (response) => {
-          if (response === 0) {
-            app.quit();
-          }
+          dialog.showMessageBox({
+            message: 'You need to relaunch the app to use widevineCDM',
+            buttons: [
+              'Relaunch now',
+              'Cancel',
+            ],
+            defaultId: 0,
+            cancelId: 1,
+          }, (response) => {
+            if (response === 0) {
+              app.quit();
+            }
+          });
+        })
+        .catch((err) => {
+          console.log(err);
         });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  })
+    }
+  });
   ```
