@@ -80,29 +80,44 @@ const downloadAsync = (app, dest, platform = process.platform, arch = process.ar
   .then(() => extractZipAsync(tmpLibPath, dest));
 };
 
-const checkForUpdateAsync = (dest) => {
-  const rpOpts = {
-    uri: 'https://api.github.com/repos/webcatalog/electron-widevinecdm/releases/latest',
-    headers: {
-      'User-Agent': 'Request-Promise',
-      Accept: 'application/vnd.github.v3+json',
-    },
-    json: true,
-  };
+const checkForUpdateAsync = dest =>
+  Promise.resolve()
+    .then(() => {
+      const rpOpts = {
+        uri: 'https://api.github.com/repos/webcatalog/electron-widevinecdm/releases/latest',
+        headers: {
+          'User-Agent': 'Request-Promise',
+          Accept: 'application/vnd.github.v3+json',
+        },
+        json: true,
+      };
 
-  return rp(rpOpts)
+      return rp(rpOpts);
+    })
     .then(({ tag_name }) => {
+      const rpOpts = {
+        // eslint-disable-next-line camelcase
+        uri: `https://github.com/webcatalog/electron-widevinecdm/releases/download/${tag_name}/latest.json`,
+        headers: {
+          'User-Agent': 'Request-Promise',
+          Accept: 'application/vnd.github.v3+json',
+        },
+        json: true,
+      };
+
+      return rp(rpOpts);
+    })
+    .then((latestJson) => {
       const localJsonPath = path.join(dest, 'latest.json');
-      fs.readJson(localJsonPath)
-        .then((latestJson) => {
-          const localVersion = latestJson.version;
-          const latestVersion = tag_name.substr(1);
+      return fs.readJson(localJsonPath)
+        .then((localJson) => {
+          const localVersion = localJson.version;
+          const latestVersion = latestJson.version;
 
           return semver.gt(latestVersion, localVersion);
         })
         .catch(() => false);
     });
-};
 
 const isDownloaded = (dest) => {
   let widevineCdmPluginFilename;
