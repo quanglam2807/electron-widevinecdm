@@ -58,8 +58,8 @@ const downloadAsync = (app, dest, platform = process.platform, arch = process.ar
           promises.push(
             downloadSingleFileAsync(
               assets[i].browser_download_url,
-              tmpLibPath,
-            ),
+              tmpLibPath
+            )
           );
         }
 
@@ -67,8 +67,8 @@ const downloadAsync = (app, dest, platform = process.platform, arch = process.ar
           promises.push(
             downloadSingleFileAsync(
               assets[i].browser_download_url,
-              localJsonPath,
-            ),
+              localJsonPath
+            )
           );
         }
       }
