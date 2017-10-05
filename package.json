@@ -9,7 +9,8 @@
   "scripts": {
     "start": "node src/index.js",
     "zip": "node src/zip.js",
-    "test": "cd example && yarn && yarn test"
+    "test": "cd example && yarn && yarn test",
+    "lint": "eslint ./src --ext js"
   },
   "devDependencies": {
     "eslint": "^3.19.0",
