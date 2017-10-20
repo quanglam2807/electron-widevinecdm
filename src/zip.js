@@ -30,7 +30,7 @@ const getChromeVersionAsync = () => {
     return fs.readdir('C:/Program Files (x86)/Google/Chrome/Application')
       .then((folders) => {
         /* version format: 59.0.3071.109 */
-        const versions = folders.filter(folderName => /^\d{2}(.)\d{1}(.)\d{4}(.)\d{3}$/.test(folderName));
+        const versions = folders.filter(folderName => /^\d+(.)\d+(.)\d+(.)\d+$/.test(folderName));
         // sort versions from old to new
         versions.sort();
         // return latest
