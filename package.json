@@ -24,7 +24,6 @@
   },
   "dependencies": {
     "archiver-promise": "^1.0.0",
-    "compare-versions": "^3.1.0",
     "extract-zip": "^1.6.5",
     "follow-redirects": "^1.2.4",
     "fs-extra": "^3.0.1",

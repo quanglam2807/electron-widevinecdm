@@ -3,9 +3,20 @@ const fs = require('fs-extra');
 const https = require('follow-redirects').https;
 const path = require('path');
 const rp = require('request-promise');
-const compareVersions = require('compare-versions');
 
 const { WIDEVINECDM_VERSION } = require('./constants');
+
+const compareVersions = (v1, v2) => {
+  const v1Nums = v1.split('.').map(num => parseInt(num, 10));
+  const v2Nums = v2.split('.').map(num => parseInt(num, 10));
+
+  for (let i = 0; i < v1Nums.length; i += 1) {
+    if (v1Nums[i] > v2Nums[i]) return 1;
+    if (v1Nums[i] < v2Nums[i]) return -1;
+  }
+
+  return 0;
+};
 
 const extractZipAsync = (source, target) =>
   new Promise((resolve, reject) => {
@@ -109,14 +120,21 @@ const checkForUpdateAsync = dest =>
     })
     .then((latestJson) => {
       const localJsonPath = path.join(dest, 'latest.json');
-      return fs.readJson(localJsonPath)
-        .then((localJson) => {
-          const localVersion = localJson.version;
-          const latestVersion = latestJson.version;
 
-          return compareVersions(latestVersion, localVersion) > 0;
-        })
-        .catch(() => true);
+      return fs.pathExists(localJsonPath)
+        .then((exists) => {
+          if (exists) {
+            return fs.readJson(localJsonPath)
+              .then((localJson) => {
+                const localVersion = localJson.version;
+                const latestVersion = latestJson.version;
+
+                return compareVersions(latestVersion, localVersion) > 0;
+              });
+          }
+
+          return true; // hasUpdate = true;
+        });
     });
 
 const isDownloaded = (dest) => {
