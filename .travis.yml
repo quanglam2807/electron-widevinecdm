@@ -38,6 +38,7 @@ deploy:
     email: quang.lam2807@gmail.com
     api_key:
       secure: r87UXusEINtJwJhPk4hqwc8i/5GyEOjzLSkp9rNG4ugiSekA+RynFDmUaZkl2SOl0693Xboal+3LZwpLqSVkZJ5B0y8DFWlXDqLBK+D54wImeoJINUmwKZdXp4+klcYTg6D3uar3P6ZZpfpjhrrZ3ouGcJoNcMlV9LD9EyJvyTQG0OQOD3i+51duAYASQrjBwxD5DoAd9dCGPTaDeVUj3FQ7U3F8xQOm33o3PVGIjl0IYPCs3CQbtmVHYBoe5UqQz1TwwoQ0AVhIEvML0R0yRyFKbTCXk9m+2ssR+X5xWdQCuMLTeJtfW/c93liY0K0m1kNmsdVqrThDAx7bHH+fME5MqWdbuWnfjpvJUPgK0ewPeXtJH/7SqQ8S/nSF/rDwpLG7Eqhe48oZqNP9QPKTG7PoTGMM9WMVbSHbT2LhF+9Gig+xVF5DN+jgxVZdbiImxbXwu0Frq5KY/aiX3v5oazNPxd6wLR4dPTSiPek3XZXsKs1lt7HUp4gg2SUkL4sZH5YKHcSnrMyaWFhkJs7pzsMMCRZxA3WB0TmNUAkY88TTRI8rCEEa9gpYOVS6DUGzOhPjEp6NKGPymMqUdNoyUhM3aS/JpHhMLy9BHd1ExsASmQm9+A1iExibcbUuYt9lBLDBBbRpXRu4W3UDp83J58ccbzguESPzVXqifN7iVEc=
+    skip_cleanup: true
     on:
       tags: true
       repo: webcatalog/electron-widevinecdm
