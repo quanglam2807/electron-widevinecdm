@@ -32,7 +32,7 @@ build_script:
   - yarn test
 
 artifacts:
-  - path: dist\*.zip
+  - path: widevine\*.zip
     name: WidevineCDM for Windows 64-bit
 
 deploy:

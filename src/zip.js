@@ -116,7 +116,7 @@ getChromeVersionAsync()
           return null;
         })
         .then(() => {
-          const outputPath = path.resolve(__dirname, '..', 'dist');
+          const outputPath = path.resolve(__dirname, '..', 'widevine');
 
           const latestJson = path.join(outputPath, 'latest.json');
           return fs.ensureFile(latestJson)
