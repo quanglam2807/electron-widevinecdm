@@ -47,10 +47,6 @@ const downloadAsync = (app, dest, platform = process.platform, arch = process.ar
   const libFileName = `widevinecdm_${platform}_${arch}.zip`;
   const jsonFileName = 'latest.json';
 
-  const tmpLibPath = path.join(app.getPath('temp'), `widevinecdm-${process.pid}-${Date.now()}.zip`);
-
-  const localJsonPath = path.join(dest, 'latest.json');
-
   const rpOpts = {
     uri: 'https://api.github.com/repos/webcatalog/electron-widevinecdm/releases/latest',
     headers: {
@@ -62,33 +58,26 @@ const downloadAsync = (app, dest, platform = process.platform, arch = process.ar
 
   return rp(rpOpts)
     .then(({ assets }) => {
-      const promises = [];
+      const tmpLibPath = path.join(app.getPath('temp'), `widevinecdm-${process.pid}-${Date.now()}.zip`);
+      const localJsonPath = path.join(dest, 'latest.json');
+
+      let libUrl;
+      let jsonUrl;
 
       for (let i = 0; i < assets.length; i += 1) {
         if (assets[i].name === libFileName) {
-          promises.push(
-            downloadSingleFileAsync(
-              assets[i].browser_download_url,
-              tmpLibPath,
-            ),
-          );
+          libUrl = assets[i].browser_download_url;
         }
 
         if (assets[i].name === jsonFileName) {
-          promises.push(
-            downloadSingleFileAsync(
-              assets[i].browser_download_url,
-              localJsonPath,
-            ),
-          );
+          jsonUrl = assets[i].browser_download_url;
         }
       }
 
-      if (promises.length < 2) return Promise.reject(new Error('Cannot find valid download URLs'));
-
-      return Promise.all(promises);
-    })
-  .then(() => extractZipAsync(tmpLibPath, dest));
+      return downloadSingleFileAsync(libUrl, tmpLibPath)
+        .then(() => extractZipAsync(tmpLibPath, dest))
+        .then(() => downloadSingleFileAsync(jsonUrl, localJsonPath));
+    });
 };
 
 const checkForUpdateAsync = dest =>
