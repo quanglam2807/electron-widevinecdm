@@ -32,7 +32,7 @@ const downloadFile = (url, dest) =>
     });
   });
 
-const extractZip = (source, target) =>
+const extractAsync = (source, target) =>
   new Promise((resolve, reject) => {
     extract(source, { dir: target }, (err) => {
       if (err) {
@@ -50,7 +50,7 @@ fs.ensureDir(tmpdir)
     const url = `https://github.com/webcatalog/electron-widevinecdm/releases/download/v${version}/widevinecdm_${process.platform}_${process.arch}.zip`;
     return downloadFile(url, `${tmpdir}/plugin.zip`);
   })
-  .then(() => extractZip(localZipPath, destPath))
+  .then(() => extractAsync(localZipPath, destPath))
   .catch((err) => {
     console.log(err);
     process.exit(1);

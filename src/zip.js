@@ -4,12 +4,24 @@ const fs = require('fs-extra');
 const path = require('path');
 const archiver = require('archiver-promise');
 const execFile = require('child_process').execFile;
+const extract = require('extract-zip');
 
 const { WIDEVINECDM_VERSION } = require('./constants');
 
 // https://electron.atom.io/docs/tutorial/using-widevine-cdm-plugin/
 
 console.log(`Platform: ${process.platform}`);
+
+const extractAsync = (source, target) =>
+  new Promise((resolve, reject) => {
+    extract(source, { dir: target }, (err) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve();
+    });
+  });
 
 const getChromePath = () => {
   switch (process.platform) {
@@ -117,24 +129,27 @@ getChromeVersionAsync()
         })
         .then(() => {
           const outputPath = path.resolve(__dirname, '..', 'widevine');
+          const archivePath = path.resolve(outputPath, `widevinecdm_${process.platform}_x64.zip`);
+          const latestJsonPath = path.join(outputPath, 'latest.json');
 
-          const latestJson = path.join(outputPath, 'latest.json');
-          return fs.ensureFile(latestJson)
-            .then(() => fs.writeJson(latestJson, { version: WIDEVINECDM_VERSION }))
+          return fs.ensureFile(latestJsonPath)
+            .then(() => fs.writeJson(latestJsonPath, { version: WIDEVINECDM_VERSION }))
             .then(() => {
               if (!fs.existsSync(outputPath)) {
                 fs.mkdirSync(outputPath);
               }
 
-              const archive = archiver(`${outputPath}/widevinecdm_${process.platform}_x64.zip`, { store: true });
+              const archive = archiver(archivePath, { store: true });
 
               // append a file
+              archive.file(latestJsonPath, { name: 'latest.json' });
               pluginPaths.forEach((filePath) => {
                 archive.file(filePath, { name: path.basename(filePath) });
               });
 
               return archive.finalize();
-            });
+            })
+            .then(() => extractAsync(archivePath, outputPath));
         })
         .catch((err) => {
           console.log(err);

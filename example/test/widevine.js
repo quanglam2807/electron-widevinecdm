@@ -18,23 +18,6 @@ describe('application launch', function launch() {
     return null;
   });
 
-  it('waits to donwload WidevineCDM', function showInitialWindow() {
-    this.app = new Application({
-      path: electronPath,
-      args: [appPath],
-      env: { FIRST_RUN: true },
-      startTimeout: 50000,
-      waitTimeout: 50000,
-    });
-
-    // use youtube window to know that widevinecdm is downloaded
-    // https://www.youtube.com/watch?v=ddrA_PvMy-0
-    this.app.start()
-      .then(() =>
-        this.app.client.windowByIndex(1)
-          .waitUntilWindowLoaded());
-  });
-
   it('WidevineCDM is loaded', function showInitialWindow() {
     this.app = new Application({
       path: electronPath,
