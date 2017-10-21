@@ -1,3 +1,3 @@
-const WIDEVINECDM_VERSION = '1.4.8.1008';
+const WIDEVINECDM_VERSION = '1.4.8.1029';
 
 module.exports = { WIDEVINECDM_VERSION };
