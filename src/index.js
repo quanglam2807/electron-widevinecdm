@@ -16,7 +16,7 @@ const load = (app) => {
       widevineCdmPluginFilename = 'widevinecdmadapter.dll';
   }
 
-  const pluginPath = path.join(__dirname, widevineCdmPluginFilename);
+  const pluginPath = path.join(__dirname, '..', 'widevine', widevineCdmPluginFilename);
 
   app.commandLine.appendSwitch('widevine-cdm-path', pluginPath);
 
