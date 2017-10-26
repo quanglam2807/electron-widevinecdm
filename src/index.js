@@ -1,3 +1,4 @@
+const fs = require('fs');
 const path = require('path');
 
 const { WIDEVINECDM_VERSION } = require('./constants');
@@ -16,9 +17,14 @@ const load = (app) => {
       widevineCdmPluginFilename = 'widevinecdmadapter.dll';
   }
 
-  const pluginPath = path.join(__dirname, '..', 'widevine', widevineCdmPluginFilename);
+  const asarUnpackedPath = path.join(process.resourcesPath, 'app.asar.unpacked', 'node_modules', 'electron-widevinecdm', 'widevine', widevineCdmPluginFilename);
+  const normalPath = path.join(__dirname, '..', 'widevine', widevineCdmPluginFilename);
 
-  app.commandLine.appendSwitch('widevine-cdm-path', pluginPath);
+  if (fs.existsSync(asarUnpackedPath)) {
+    app.commandLine.appendSwitch('widevine-cdm-path', asarUnpackedPath);
+  } else {
+    app.commandLine.appendSwitch('widevine-cdm-path', normalPath);
+  }
 
   app.commandLine.appendSwitch('widevine-cdm-version', WIDEVINECDM_VERSION);
 };

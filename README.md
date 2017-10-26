@@ -25,3 +25,6 @@ Only support 64-bit platforms.
 
   widevine.load(app);
   ```
+
+## Production/Packaging
+Electron cannot load the plugin from [`asar`](https://electron.atom.io/docs/tutorial/application-packaging/) archive so you need to disable `asar` or unpack `node_modules/electron-widevinecdm/widevine` directory from `asar` ([example](https://github.com/webcatalog/molecule/blob/master/src/index.js#L37)) when packaging the app.
