@@ -41,8 +41,6 @@ const extractAsync = (source, target) =>
     });
   });
 
-console.log('Download plugins from GitHub Release...');
-
 const availablePlatforms = [
   'darwin_x64',
   'win32_x64',
@@ -55,7 +53,7 @@ Promise.all(
     Promise.resolve()
       .then(() => {
         const fileName = `widevinecdm_${platform}.zip`;
-        console.log(fileName);
+        console.log(`Downloading widevinecdm_${platform}.zip...`);
         const localPath = path.resolve(__dirname, 'dist', fileName);
 
         return fs.exists(localPath)
@@ -75,6 +73,9 @@ Promise.all(
         const dest = path.resolve(__dirname, 'widevine', platform);
 
         return extractAsync(origin, dest);
+      })
+      .then(() => {
+        console.log(`widevinecdm_${platform}.zip is downloaded & extracted.`);
       })
       .catch((err) => {
         console.log(err);

@@ -26,7 +26,7 @@ describe('application launch', function launch() {
       waitTimeout: 50000,
     });
 
-    this.app.start()
+    return this.app.start()
       .then(() =>
         this.app.client
           .windowByIndex(0)
