@@ -5,6 +5,8 @@ matrix:
   include:
   - os: osx
     node_js: 8
+    before_install:
+    - brew install p7zip
 cache:
   yarn: true
   directories:
