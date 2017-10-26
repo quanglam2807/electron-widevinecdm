@@ -11,22 +11,26 @@
     "build": "babel src --out-dir lib",
     "lint": "eslint ./src --ext js",
     "test": "cd example && yarn && yarn test",
-    "zip": "node lib/zip.js",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.0",
+    "download": "^6.2.5",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-plugin-import": "^2.6.0",
     "eslint-plugin-jsx-a11y": "^5.0.3",
-    "eslint-plugin-react": "^7.1.0"
+    "eslint-plugin-react": "^7.1.0",
+    "node-7z": "^0.4.0"
   },
   "dependencies": {
     "archiver-promise": "^1.0.0",
     "extract-zip": "^1.6.5",
     "follow-redirects": "^1.2.4",
     "fs-extra": "^3.0.1"
+  },
+  "peerDependencies": {
+    "electron": "^1.7.x"
   }
 }

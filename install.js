@@ -15,8 +15,6 @@ const version = require('./package').version;
 const extract = require('extract-zip');
 
 const tmpdir = path.join(os.tmpdir(), `widevinecdm-${process.pid}-${Date.now()}`);
-const localZipPath = `${tmpdir}/plugin.zip`;
-const destPath = path.resolve(__dirname, 'widevine');
 
 const downloadFile = (url, dest) =>
   new Promise((resolve, reject) => {
@@ -45,13 +43,42 @@ const extractAsync = (source, target) =>
 
 console.log('Download plugins from GitHub Release...');
 
-fs.ensureDir(tmpdir)
-  .then(() => {
-    const url = `https://github.com/webcatalog/electron-widevinecdm/releases/download/v${version}/widevinecdm_${process.platform}_${process.arch}.zip`;
-    return downloadFile(url, `${tmpdir}/plugin.zip`);
-  })
-  .then(() => extractAsync(localZipPath, destPath))
-  .catch((err) => {
-    console.log(err);
-    process.exit(1);
-  });
+const availablePlatforms = [
+  'darwin_x64',
+  'win32_x64',
+  'win32_ia32',
+  'linux_x64',
+];
+
+Promise.all(
+  availablePlatforms.map(platform =>
+    Promise.resolve()
+      .then(() => {
+        const fileName = `widevinecdm_${platform}.zip`;
+        console.log(fileName);
+        const localPath = path.resolve(__dirname, 'dist', fileName);
+
+        return fs.exists(localPath)
+          .then((exists) => {
+            if (exists) return localPath;
+
+            return fs.ensureDir(tmpdir)
+              .then(() => {
+                const tmpPluginZip = path.resolve(tmpdir, fileName);
+                const url = `https://github.com/webcatalog/electron-widevinecdm/releases/download/v${version}/${fileName}`;
+                return downloadFile(url, tmpPluginZip)
+                  .then(() => tmpPluginZip);
+              });
+          });
+      })
+      .then((origin) => {
+        const dest = path.resolve(__dirname, 'widevine', platform);
+
+        return extractAsync(origin, dest);
+      })
+      .catch((err) => {
+        console.log(err);
+        process.exit(1);
+      }),
+  ),
+);

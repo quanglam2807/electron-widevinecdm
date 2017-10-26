@@ -1,3 +1,8 @@
-const WIDEVINECDM_VERSION = '1.4.8.1029';
+const CHROME_VERSION = '58.0.3029.96';
+const WIDEVINECDM_VERSION = '1.4.8.970';
 
-module.exports = { WIDEVINECDM_VERSION };
+
+module.exports = {
+  WIDEVINECDM_VERSION,
+  CHROME_VERSION,
+};

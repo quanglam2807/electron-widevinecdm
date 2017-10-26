@@ -7,18 +7,18 @@ const load = (app) => {
   let widevineCdmPluginFilename;
   switch (process.platform) {
     case 'darwin':
-      widevineCdmPluginFilename = 'widevinecdmadapter.plugin';
+      widevineCdmPluginFilename = path.resolve('_platform_specific', 'mac_x64', 'widevinecdmadapter.plugin');
       break;
     case 'linux':
       widevineCdmPluginFilename = 'libwidevinecdmadapter.so';
       break;
     default:
     case 'win32':
-      widevineCdmPluginFilename = 'widevinecdmadapter.dll';
+      widevineCdmPluginFilename = path.resolve('_platform_specific', `win_${process.arch}`, 'widevinecdmadapter.dll');
   }
 
-  const asarUnpackedPath = path.join(process.resourcesPath, 'app.asar.unpacked', 'node_modules', 'electron-widevinecdm', 'widevine', widevineCdmPluginFilename);
-  const normalPath = path.join(__dirname, '..', 'widevine', widevineCdmPluginFilename);
+  const asarUnpackedPath = path.join(process.resourcesPath, 'app.asar.unpacked', 'node_modules', 'electron-widevinecdm', 'widevine', `${process.platform}_${process.arch}`, widevineCdmPluginFilename);
+  const normalPath = path.join(__dirname, '..', 'widevine', `${process.platform}_${process.arch}`, widevineCdmPluginFilename);
 
   if (fs.existsSync(asarUnpackedPath)) {
     app.commandLine.appendSwitch('widevine-cdm-path', asarUnpackedPath);
