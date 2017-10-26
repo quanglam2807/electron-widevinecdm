@@ -21,6 +21,7 @@ script:
 - node tools/download-chrome.js
 - hdiutil attach chrome/chrome.dmg
 - node tools/pack-widevine.js
+- node tools/extract-widevine.js
 - yarn build
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]];then export DISPLAY=:99.0;sh -e /etc/init.d/xvfb start;sleep 3;fi
 - yarn test
