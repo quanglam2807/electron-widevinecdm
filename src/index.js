@@ -14,7 +14,7 @@ const load = (app) => {
       break;
     default:
     case 'win32':
-      widevineCdmPluginFilename = path.resolve('_platform_specific', `win_${process.arch}`, 'widevinecdmadapter.dll');
+      widevineCdmPluginFilename = path.resolve('_platform_specific', `win_${process.arch === 'ia32' ? 'x86' : process.arch}`, 'widevinecdmadapter.dll');
   }
 
   const asarUnpackedPath = path.join(process.resourcesPath, 'app.asar.unpacked', 'node_modules', 'electron-widevinecdm', 'widevine', `${process.platform}_${process.arch}`, widevineCdmPluginFilename);
