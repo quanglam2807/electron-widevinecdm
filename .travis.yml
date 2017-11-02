@@ -4,7 +4,7 @@ matrix:
   fast_finish: true
   include:
   - os: osx
-    node_js: 8
+    node_js: 6
     env:
     - HOMEBREW_DEVELOPER="Not really, but let's pretend I am until this travis bug gets fixed, ok?"
     before_install:
@@ -18,11 +18,11 @@ cache:
   - node_modules
 script:
 - yarn lint
+- yarn build
 - node tools/download-chrome.js
 - hdiutil attach chrome/chrome.dmg
 - node tools/pack-widevine.js
 - node tools/extract-widevine.js
-- yarn build
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]];then export DISPLAY=:99.0;sh -e /etc/init.d/xvfb start;sleep 3;fi
 - yarn test
 deploy:
