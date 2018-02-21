@@ -4,6 +4,8 @@ const path = require('path');
 const { WIDEVINECDM_VERSION } = require('./constants');
 
 const load = (app) => {
+  if (process.platform === 'win32') return;
+
   let widevineCdmPluginFilename;
   switch (process.platform) {
     case 'darwin':

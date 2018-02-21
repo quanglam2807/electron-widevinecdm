@@ -15,8 +15,8 @@ const extractAsync = (source, target) =>
 
 const availablePlatforms = [
   'darwin_x64',
-  'win32_x64',
-  'win32_ia32',
+  // 'win32_x64',
+  // 'win32_ia32',
   'linux_x64',
 ];
 

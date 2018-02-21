@@ -9,14 +9,14 @@ const { CHROME_VERSION } = require('../src/constants');
 const chromePath = path.resolve(__dirname, '..', 'chrome');
 
 const files = [
-  {
-    name: 'chrome_ia32.exe',
-    url: `https://www.slimjet.com/chrome/download-chrome.php?file=win%2Fchrome32_${CHROME_VERSION}.exe`,
-  },
-  {
-    name: 'chrome_x64.exe',
-    url: `https://www.slimjet.com/chrome/download-chrome.php?file=win%2Fchrome64_${CHROME_VERSION}.exe`,
-  },
+  // {
+  //  name: 'chrome_ia32.exe',
+  //  url: `https://www.slimjet.com/chrome/download-chrome.php?file=win%2Fchrome32_${CHROME_VERSION}.exe`,
+  // },
+  // {
+  //  name: 'chrome_x64.exe',
+  //  url: `https://www.slimjet.com/chrome/download-chrome.php?file=win%2Fchrome64_${CHROME_VERSION}.exe`,
+  // },
   {
     name: 'chrome_x64.deb',
     url: `https://www.slimjet.com/chrome/download-chrome.php?file=lnx%2Fchrome64_${CHROME_VERSION}.deb`,

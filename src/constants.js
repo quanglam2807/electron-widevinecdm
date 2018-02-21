@@ -1,5 +1,5 @@
-const CHROME_VERSION = '58.0.3029.96';
-const WIDEVINECDM_VERSION = '1.4.8.970';
+const CHROME_VERSION = '59.0.3071.86';
+const WIDEVINECDM_VERSION = '1.4.8.984';
 
 
 module.exports = {

@@ -55,6 +55,7 @@ const createLinuxZip = (arch) => {
     });
 };
 
+/*
 const createWin32Zip = (arch) => {
   console.log(`Packing widevinecdm_win32_${arch}.zip...`);
   return Promise.resolve()
@@ -73,7 +74,9 @@ const createWin32Zip = (arch) => {
       const archivePath = path.resolve(distPath, `widevinecdm_win32_${arch}.zip`);
       const archive = archiver(archivePath, { store: true });
 
-      const widevinePath = path.resolve(chromeExtractedPath, `win_${arch}`, `chrome${arch === 'x64' ? '64' : 32}_${CHROME_VERSION}`, CHROME_VERSION, 'WidevineCdm');
+      const widevinePath =
+        path.resolve(chromeExtractedPath, `win_${arch}`,
+        `chrome${arch === 'x64' ? '64' : 32}_${CHROME_VERSION}`, CHROME_VERSION, 'WidevineCdm');
 
       console.log('Adding WidevineCdm directory to archive...');
       archive.directory(widevinePath, false);
@@ -82,6 +85,7 @@ const createWin32Zip = (arch) => {
       return archive.finalize();
     });
 };
+*/
 
 const createDarwinZip = () => {
   console.log('Packing widevinecdm_darwin_x64.zip...');
@@ -104,8 +108,8 @@ const createDarwinZip = () => {
 Promise.resolve()
   .then(() => fs.ensureDir(distPath))
   .then(() => createLinuxZip('x64'))
-  .then(() => createWin32Zip('x64'))
-  .then(() => createWin32Zip('ia32'))
+  // .then(() => createWin32Zip('x64'))
+  // .then(() => createWin32Zip('ia32'))
   .then(() => createDarwinZip())
   .catch((err) => {
     console.log(err);
