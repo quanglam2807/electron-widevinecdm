@@ -2,7 +2,7 @@
 
 // Skip on CI
 const repoSlug = process.env.TRAVIS_REPO_SLUG || process.env.APPVEYOR_REPO_NAME || 'Not detected';
-if (repoSlug === 'webcatalog/electron-widevinecdm') {
+if (repoSlug === 'quanglam2807/electron-widevinecdm') {
   console.log('Skipping this step on CI');
   process.exit(0);
 }
@@ -43,8 +43,8 @@ const extractAsync = (source, target) =>
 
 const availablePlatforms = [
   'darwin_x64',
-  'win32_x64',
-  'win32_ia32',
+  // 'win32_x64',
+  // 'win32_ia32',
   'linux_x64',
 ];
 
