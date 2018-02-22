@@ -32,5 +32,6 @@
   },
   "peerDependencies": {
     "electron": "1.8.x"
-  }
+  },
+  "os": ["!win32"]
 }
