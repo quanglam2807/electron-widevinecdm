@@ -30,8 +30,5 @@
     "follow-redirects": "^1.2.4",
     "fs-extra": "^3.0.1"
   },
-  "peerDependencies": {
-    "electron": "1.8.x"
-  },
   "os": ["!win32"]
 }
