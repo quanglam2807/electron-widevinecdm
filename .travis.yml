@@ -33,4 +33,4 @@ deploy:
     skip_cleanup: true
     on:
       tags: true
-      repo: webcatalog/electron-widevinecdm
+      repo: quanglam2807/electron-widevinecdm
