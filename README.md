@@ -1,9 +1,9 @@
-# electron-widevinecdm [![npm package](https://img.shields.io/npm/v/electron-widevinecdm.svg)](https://www.npmjs.org/package/electron-widevinecdm) [![Travis Build Status](https://travis-ci.org/quanglam2807/electron-widevinecdm.svg?branch=master)](https://travis-ci.org/quanglam2807/electron-widevinecdm) [![MIT License](http://img.shields.io/:license-mit-blue.svg)](https://github.com/webcatalog/electron-widevinecdm/blob/master/LICENSE)
+# electron-widevinecdm [![npm package](https://img.shields.io/npm/v/electron-widevinecdm.svg)](https://www.npmjs.org/package/electron-widevinecdm) [![Travis Build Status](https://travis-ci.org/webcatalog/electron-widevinecdm.svg?branch=master)](https://travis-ci.org/webcatalog/electron-widevinecdm) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 WidevineCDM for Electron - Allows you to run Netflix and other streaming websites in your Electron apps.
 
 ## Compatibility
-`electron-widevinecdm` supports macOS & Linux x64. But it **does not** support Windows (See [#10](https://github.com/quanglam2807/electron-widevinecdm/issues/10#issuecomment-367436311)).
+`electron-widevinecdm` supports macOS & Linux x64. But it **does not** support Windows (See [#10](https://github.com/webcatalog/electron-widevinecdm/issues/10#issuecomment-367436311)).
 
 According to [Electron's documentation](https://github.com/electron/electron/blob/master/docs/tutorial/using-widevine-cdm-plugin.md),
 > Note: The major version of Chrome browser has to be the same with the Chrome version used by Electron, otherwise the plugin will not work even though navigator.plugins would show it has been loaded.

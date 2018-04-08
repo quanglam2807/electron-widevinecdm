@@ -2,7 +2,7 @@
 
 // Skip on CI
 const repoSlug = process.env.TRAVIS_REPO_SLUG || process.env.APPVEYOR_REPO_NAME || 'Not detected';
-if (repoSlug === 'quanglam2807/electron-widevinecdm') {
+if (repoSlug === 'webcatalog/electron-widevinecdm') {
   console.log('Skipping this step on CI');
   process.exit(0);
 }

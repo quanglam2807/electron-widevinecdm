@@ -33,4 +33,3 @@ deploy:
     skip_cleanup: true
     on:
       tags: true
-      repo: quanglam2807/electron-widevinecdm
