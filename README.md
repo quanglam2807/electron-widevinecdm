@@ -1,5 +1,9 @@
 # electron-widevinecdm [![npm package](https://img.shields.io/npm/v/electron-widevinecdm.svg)](https://www.npmjs.org/package/electron-widevinecdm) [![Travis Build Status](https://travis-ci.org/webcatalog/electron-widevinecdm.svg?branch=master)](https://travis-ci.org/webcatalog/electron-widevinecdm) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+```
+The project is deprecated. If you'd like to take over the project, contact me.
+```
+
 WidevineCDM for Electron - Allows you to run Netflix and other streaming websites in your Electron apps.
 
 ## Compatibility
